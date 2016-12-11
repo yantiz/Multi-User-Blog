@@ -1,0 +1,66 @@
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+.grid {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.row {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+}
+
+.col-ref {
+  width: 30%;
+}
+
+.col-ref > h3 {
+  text-align: center;
+}
+
+ul {
+  padding-left: 40%;
+}
+
+span {
+  color: red;
+}
+
+.title {
+  width: 500px;
+}
+
+.blog {
+  width: 550px;
+  height: 300px;
+  white-space: pre-line;
+}
+
+.cancel {
+  text-decoration: None;
+  color: black;
+}
+
+.post {
+  background-color: #cbd1da;
+  border: 2px solid black;
+  padding: 5px;
+}
+
+.post-title{
+  display: inline-block;
+}
+
+.author-date {
+  float: right;
+}
+
+hr {
+  background-color: black; 
+  border: none;
+  height: 2px;
+}

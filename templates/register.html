@@ -1,0 +1,21 @@
+{% extends "home.html" %}
+
+{% block content %}
+<div class="row">
+  <form method="post">
+    <fieldset>
+      <legend>Registration Form</legend>
+      <label>
+        Username: 
+        <input type="text" name="username" value="{{username}}">
+      </label><br>
+      <label>
+        Password:
+        <input type="password" name="password">
+      </label><br>
+      <input type="submit">
+      <span>{{ reg_error }}</span>
+    </fieldset>
+  </form>
+<div>
+{% endblock %}
