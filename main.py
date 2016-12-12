@@ -131,7 +131,7 @@ class Login(MyHandler):
 class Logout(MyHandler):
     def get(self):
         self.response.delete_cookie('cur_user', path='/')
-        self.redirect('/login')
+        self.redirect('/')
 
 class ViewAllPosts(MyHandler):
     def get(self):
