@@ -6,7 +6,7 @@ import webapp2
 from google.appengine.ext import ndb
 
 from hashmethod import make_cookie, check_cookie, validate_pw
-from entity import Post, User
+from entity import Post, User, Like, Comment
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir),
@@ -42,8 +42,23 @@ class MyHandler(webapp2.RequestHandler):
 
 class MainPage(MyHandler):
     def get(self):
+        # posts, users, likes, comments = Post.query(), User.query(), \
+                                        # Like.query(), Comment.query()
+        # for post in posts:
+            # post.key.delete()
+        # for user in users:
+            # user.key.delete()
+        # for like in likes:
+            # like.key.delete()
+        # for comment in comments:
+            # comment.key.delete()
+
         posts = Post.get_recent_ten_posts()
-        self.render('blogs.html', home_page=True, posts=posts)
+        com_list = []
+        for post in posts:
+            comments = Comment.get_comments_by_postid(post.key.id())
+            com_list.append(comments)
+        self.render('blogs.html', homepage=True, posts=posts, com_list=com_list)
 
 class Register(MyHandler):
     def get(self):
@@ -76,11 +91,12 @@ class Deregister(MyHandler):
     def get(self):
         cur_user = self.request.registry.get('cur_user')
         if cur_user:
-            # Clear the cookie, delete the user's posts and deregister the user.
             self.response.delete_cookie('cur_user', path='/')
-            Post.delete_all_posts_by_author(cur_user)
             User.deregister(cur_user)
-        self.redirect('/')
+            action = "Deregistration"
+            self.render("commit.html", action=action)
+        else:
+            self.redirect('/')
 
 class Welcome(MyHandler):
     def get(self):
@@ -150,7 +166,7 @@ class NewPost(MyHandler):
             else:
                 post_error = "You must fill title as well as blog."
                 self.render("new_or_edit_post.html", title=title, blog=blog,
-                                                post_error=post_error)
+                                                     post_error=post_error)
 
 class ViewAllMyPosts(MyHandler):
     def get(self):
@@ -195,7 +211,7 @@ class EditPost(MyHandler):
                 post = Post.identity_check(cur_user, post_id)
                 if post:
                     post.edit_post(title, blog)
-                    action = "edit"
+                    action = "post edit"
                     self.render("commit.html", action=action)
                 else:
                     self.render("permission.html")
@@ -204,7 +220,6 @@ class EditPost(MyHandler):
                 self.render("new_or_edit_post.html", title=title, blog=blog,
                                                      post_error=post_error)
 
-        
 class DeletePost(MyHandler):
     def get(self, post_id):
         cur_user = self.request.registry.get('cur_user')
@@ -213,10 +228,32 @@ class DeletePost(MyHandler):
             post = Post.identity_check(cur_user, post_id)
             if post: 
                 action = "delete"
-                post.key.delete()
+                post.delete_post()
                 self.render("commit.html", action=action)
             else:
                 self.render("permission.html")
+        else:
+            self.redirect('/login')
+
+class LikePost(MyHandler):
+    def get(self, post_id):
+        cur_user = self.request.registry.get('cur_user')
+        post_id = int(post_id)
+        if cur_user:
+            post = Post.get_by_id(post_id)
+            if cur_user != post.author:
+                like = Like.get_like_by_username_or_postid(username=cur_user, \
+                                                           post_id=post_id) 
+                if not like:
+                    Like.add_like(post, cur_user, post_id)
+                    action = "like"
+                    self.render("commit.html", action=action)
+                else:
+                    like.remove_like()
+                    action = "dislike"
+                    self.render("commit.html", action=action)
+            else:
+                self.render("permission.html", like=True)
         else:
             self.redirect('/login')
 
@@ -230,7 +267,75 @@ class SearchPosts(MyHandler):
         title = self.request.get('title')
         posts = Post.get_posts_by_author_or_title(author=author, title=title)                                        
         self.render("blogs.html", posts=posts)
-        
+
+class AddComment(MyHandler):
+    def get(self, post_id):
+        cur_user = self.request.registry.get('cur_user')
+        if cur_user:
+            self.render("add_or_edit_comment.html")
+        else:
+            self.redirect('/login')
+
+    def post(self, post_id):
+        cur_user = self.request.registry.get('cur_user')
+        post_id = int(post_id)
+        if cur_user:
+            content = self.request.get('content')
+            if content:
+                Comment.put_comment(cur_user, post_id, content)
+                action = "comment"
+                self.render("commit.html", action=action)
+            else:
+                com_error = "You can't leave your comment blank."
+                self.render("add_or_edit_comment.html", com_error=com_error)
+
+class ComEdit(MyHandler):
+    def get(self, com_id):
+        cur_user = self.request.registry.get('cur_user')
+        com_id = int(com_id)
+        #identity check
+        if cur_user:
+            comment = Comment.identity_check(cur_user, com_id)
+            if comment:
+                self.render("add_or_edit_comment.html", comment=comment.content)
+            else:
+                self.render("permission.html", comment=True)
+        else:
+            self.redirect('/login')
+    
+    def post(self, com_id):
+        cur_user = self.request.registry.get('cur_user')
+        com_id = int(com_id)
+        if cur_user:
+            comment = Comment.identity_check(cur_user, com_id)
+            if comment:
+                content = self.request.get('content')
+                if content:
+                    comment.edit_comment(content)
+                    action = "comment edit"
+                    self.render("commit.html", action=action)
+                else:
+                    com_error = "You can't leave your comment blank."
+                    self.render("add_or_edit_comment.html", com_error=com_error)
+            else:
+                self.render("permission.html", comment=True)
+
+class ComDelete(MyHandler):
+    def get(self, com_id):
+        cur_user = self.request.registry.get('cur_user')
+        com_id = int(com_id)
+        if cur_user:
+            comment = Comment.identity_check(cur_user, com_id)
+            if comment:
+                action = "delete"
+                comment.key.delete()
+                self.render("commit.html", action=action)
+            else:
+                self.render("permission.html", comment=True)
+        else:
+            self.redirect('/login')
+
+
 app = webapp2.WSGIApplication([('/', MainPage),
                                ('/register', Register),
                                ('/deregister', Deregister),
@@ -243,6 +348,10 @@ app = webapp2.WSGIApplication([('/', MainPage),
                                ('/deleteallmyposts', DeleteAllMyPosts),
                                ('/edit/([0-9]+)', EditPost),
                                ('/delete/([0-9]+)', DeletePost),
+                               ('/like/([0-9]+)', LikePost),
                                ('/searchposts', SearchPosts),
+                               ('/addcomment/([0-9]+)', AddComment),
+                               ('/com_edit/([0-9]+)', ComEdit),
+                               ('/com_delete/([0-9]+)', ComDelete)
                               ],
                               debug=True)

@@ -51,7 +51,7 @@ span {
   padding: 5px;
 }
 
-.post-title{
+.post-title, .comment-title {
   display: inline-block;
 }
 
@@ -60,7 +60,17 @@ span {
 }
 
 hr {
-  background-color: black; 
+  background-color: black;
   border: none;
   height: 2px;
+}
+
+.comment {
+  width: 550px;
+  height: 200px;
+  white-space: pre-line;
+}
+
+.commenter {
+  color: green;
 }

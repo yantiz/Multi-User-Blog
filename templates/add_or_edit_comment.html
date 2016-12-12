@@ -1,0 +1,20 @@
+{% extends "home.html" %}
+
+{% block content %}
+<div class="row">
+  <form method="post">
+    <fieldset>
+      <legend><strong>Comment Form</strong></legend>
+      <label>
+        Comment:
+        <br>
+        <textarea name="content" class="comment">{{ comment }}</textarea>
+      </label>
+      <br>
+      <button><a class="cancel" href="/">Cancel</a></button>
+      <input type="submit">
+      <span>{{ com_error }}</span>
+    </fieldset>
+  </form>
+</div>
+{% endblock %}
