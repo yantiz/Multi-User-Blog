@@ -2,6 +2,8 @@
 
 This project builds a basic blog site that allows users to post their blogs and share with others.
 [Click me](https://multi-user-blog-151201.appspot.com/) to get access to the blog site that is currently running on the google app engine. 
+To run the project locally, please make sure you've downloaded and installed the Google Cloud SDK and type `dev_appserver.py .` in the root
+directory of the project.
 
 ## Technologies that are used
 - Front end: Jinja2
