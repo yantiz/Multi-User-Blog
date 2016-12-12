@@ -9,29 +9,29 @@
 {% endif %}
 {% for post in posts %}
   <div class="post">
-  <div class="post-title"><h3>{{ post.title }}</h3></div>
-  <div class="post-title author-date">{{ post.author + ", " + post.last_modified.strftime("%b/%d/%Y %H:%M:%S") }}</div>
-  <br>
-  {% if cur_user == post.author %}
-    Like({{ post.like_num }})
-    <a href="/edit/{{post.key.id()}}">Edit</a>
-    <a href="/delete/{{post.key.id()}}">Delete</a>
-  {% elif not cur_user %}
-    Like({{ post.like_num }})
-  {% else %}
-    <a href="/like/{{post.key.id()}}">Like({{ post.like_num }})</a>
-  {% endif %}
+    <div class="post-title"><h3>{{ post.title }}</h3></div>
+    <div class="post-title author-date">{{ post.author + ", " + post.last_modified.strftime("%b/%d/%Y %H:%M:%S") }}</div>
+    <br>
+    {% if cur_user == post.author %}
+      Like({{ post.like_num }})
+      <a href="/edit/{{post.key.id()}}">Edit</a>
+      <a href="/delete/{{post.key.id()}}">Delete</a>
+    {% elif not cur_user %}
+      Like({{ post.like_num }})
+    {% else %}
+      <a href="/like/{{post.key.id()}}">Like({{ post.like_num }})</a>
+    {% endif %}
 
-  {% if cur_user %}
-    <a href="/addcomment/{{post.key.id()}}">Comment</a>
-  {% endif %}
+    {% if cur_user %}
+      <a href="/addcomment/{{post.key.id()}}">Comment</a>
+    {% endif %}
 
-  <br><br>
-  {% for line in post.blog.splitlines() %}
-    {{ line }}<br>
-  {% endfor %}
+    <br><br>
+    {% for line in post.blog.splitlines() %}
+      {{ line }}<br>
+    {% endfor %}
 
-  {% for comments in com_list %}
+    {% set comments = com_list.pop(0) %}
     {% for comment in comments %}
       <hr>
       <div class="comment-title"><h5 class="commenter">Commented by {{comment.author}}</h5></div>
@@ -45,9 +45,7 @@
         {{ line }}<br>
       {% endfor %}
     {% endfor %}
-  {% endfor %}
-
   </div>
-<br><br>
+  <br><br>
 {% endfor %}
 {% endblock %}

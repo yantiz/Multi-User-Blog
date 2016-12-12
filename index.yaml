@@ -21,3 +21,15 @@ indexes:
   - name: post_id
   - name: last_modified
     direction: desc
+
+- kind: Post
+  properties:
+  - name: author
+  - name: last_modified
+    direction: desc
+
+- kind: Post
+  properties:
+  - name: title
+  - name: last_modified
+    direction: desc

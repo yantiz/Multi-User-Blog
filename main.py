@@ -16,6 +16,13 @@ def render_str(template, **params):
         t = jinja_env.get_template(template)
         return t.render(params)
 
+def get_com_list(posts):
+    com_list = []
+    for post in posts:
+        comments = Comment.get_comments_by_postid(post.key.id())
+        com_list.append(comments)
+    return com_list
+
 class MyHandler(webapp2.RequestHandler):
     def __init__(self, request, response):
         self.initialize(request, response)
@@ -42,22 +49,8 @@ class MyHandler(webapp2.RequestHandler):
 
 class MainPage(MyHandler):
     def get(self):
-        # posts, users, likes, comments = Post.query(), User.query(), \
-                                        # Like.query(), Comment.query()
-        # for post in posts:
-            # post.key.delete()
-        # for user in users:
-            # user.key.delete()
-        # for like in likes:
-            # like.key.delete()
-        # for comment in comments:
-            # comment.key.delete()
-
         posts = Post.get_recent_ten_posts()
-        com_list = []
-        for post in posts:
-            comments = Comment.get_comments_by_postid(post.key.id())
-            com_list.append(comments)
+        com_list = get_com_list(posts)
         self.render('blogs.html', homepage=True, posts=posts, com_list=com_list)
 
 class Register(MyHandler):
@@ -143,7 +136,8 @@ class Logout(MyHandler):
 class ViewAllPosts(MyHandler):
     def get(self):
         posts = Post.get_all_posts()
-        self.render("blogs.html", posts=posts)
+        com_list = get_com_list(posts)
+        self.render("blogs.html", posts=posts, com_list=com_list)
 
 class NewPost(MyHandler):
     def get(self):
@@ -173,7 +167,8 @@ class ViewAllMyPosts(MyHandler):
         cur_user = self.request.registry.get('cur_user')
         if cur_user:
             posts = Post.get_posts_by_author_or_title(author=cur_user)
-            self.render("blogs.html", posts=posts)
+            com_list = get_com_list(posts)
+            self.render("blogs.html", posts=posts, com_list=com_list)
         else:
             self.redirect('/login')
 
@@ -265,8 +260,9 @@ class SearchPosts(MyHandler):
     def post(self):
         author = self.request.get('author')
         title = self.request.get('title')
-        posts = Post.get_posts_by_author_or_title(author=author, title=title)                                        
-        self.render("blogs.html", posts=posts)
+        posts = Post.get_posts_by_author_or_title(author=author, title=title)
+        com_list = get_com_list(posts)                                      
+        self.render("blogs.html", posts=posts, com_list=com_list)
 
 class AddComment(MyHandler):
     def get(self, post_id):
