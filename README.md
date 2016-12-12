@@ -3,7 +3,7 @@
 This project builds a basic blog site that allows users to post their blogs and share with others.
 [Click me](https://multi-user-blog-151201.appspot.com/) to get access to the blog site that is currently running on the google app engine. 
 
-## Technolog that are used
+## Technologies that are used
 - Front end: Jinja2
 - Web framework: webapp2
 - Backend: Google cloud datastore 
