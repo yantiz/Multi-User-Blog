@@ -62,13 +62,18 @@ class User(ndb.Model):
     password_hash = ndb.StringProperty(required=True)
 
     @classmethod
+    def UserKey(cls, username):
+        return ndb.Key(cls, username)
+
+    @classmethod
     def get_by_username(cls, username):
-        return cls.query().filter(cls.username==username).get()
+        return cls.UserKey(username).get()
 
     @classmethod
     def register(cls, username, password):
         user = cls(username=username,
-                   password_hash=make_pw_hash(username, password))
+                   password_hash=make_pw_hash(username, password),
+                   id=username)
         user.put()
 
     @classmethod
@@ -76,8 +81,7 @@ class User(ndb.Model):
         Like.remove_all_likes_by_user(username)
         Comment.remove_all_comments_by_author(username)
         Post.delete_all_posts_by_author(username)
-        user = cls.get_by_username(username)
-        user.key.delete()
+        cls.UserKey(username).delete()
 
     def verify_pw(self, password):
         return validate_pw(self.username, password, self.password_hash)
