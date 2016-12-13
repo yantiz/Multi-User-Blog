@@ -245,7 +245,7 @@ class LikePost(MyHandler):
                     self.render("commit.html", action=action)
                 else:
                     like.remove_like()
-                    action = "dislike"
+                    action = "unlike"
                     self.render("commit.html", action=action)
             else:
                 self.render("permission.html", like=True)

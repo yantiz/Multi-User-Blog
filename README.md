@@ -28,7 +28,7 @@ To run the project locally, please make sure you've installed the Google Cloud S
 - Delete all my posts: allow users to delete all their own posts
 
 ### Actions on post:
-- Like: like this post
+- Like: like or unlike (toggle like) this post
 - Edit: allow users to edit their own posts
 - Delete: allow users to delete their own posts
 - Comment: allow users to leave comment below posts
