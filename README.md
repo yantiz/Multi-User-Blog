@@ -7,7 +7,7 @@ To run the project locally, please make sure you've installed the Google Cloud S
 ## Technologies that are used
 - Front end: Jinja2
 - Web framework: webapp2
-- Backend: Google cloud datastore 
+- Backend: Google Cloud Datastore 
 
 ## Options that are available to users
 
