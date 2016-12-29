@@ -1,14 +1,18 @@
 {% extends "home.html" %}
 
 {% block content %}
-{% if like %}
 <div class="row">
-  <h2>Sorry, you are the author of this post and not allowed to like your own post.</h2>
+  <div class="col-md-12 text-center">
+    {% if like %}
+    <div class="row">
+      <h2>Sorry, you are the author of this post and not allowed to like your own post.</h2>
+    </div>
+    {% elif comment %}
+      <h2>Sorry, you are not the author of this comment and don't have permission to do so.</h2>
+    {% else %}
+    <div class="row">
+      <h2>Sorry, you are not the author of this post and don't have permission to do so.</h2>
+    {% endif %}
+  </div>
 </div>
-{% elif comment %}
-  <h2>Sorry, you are not the author of this comment and don't have permission to do so.</h2>
-{% else %}
-<div class="row">
-  <h2>Sorry, you are not the author of this post and don't have permission to do so.</h2>
-{% endif %}
 {% endblock %}

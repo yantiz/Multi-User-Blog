@@ -2,20 +2,22 @@
 
 {% block content %}
 <div class="row">
-  <form method="post">
-    <fieldset> 
-      <legend><strong>Login Form</strong></legend>
-      <label>
-        Username:
-        <input type="text" name="username" value="{{username}}">
-      </label><br>
-      <label>
-        Password:
-        <input type="password" name="password">
-      </label><br>
-      <input type="submit">
-      <span>{{ login_error }}</span>
-    </fieldset>
-  </form>
+  <div class="col-md-12 text-center">
+    <form method="post">
+      <fieldset> 
+        <legend><strong>Login Form</strong></legend>
+        <label>
+          Username:
+          <input type="text" name="username" value="{{username}}">
+        </label><br>
+        <label>
+          Password:
+          <input type="password" name="password">
+        </label><br>
+        <input type="submit">
+        <span>{{ login_error }}</span>
+      </fieldset>
+    </form>
+  </div>
 </div>
 {% endblock %}

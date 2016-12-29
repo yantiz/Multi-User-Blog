@@ -2,24 +2,26 @@
 
 {% block content %}
 <div class="row">
-  <form method="post">
-    <fieldset>
-      <legend><strong>Search Form</strong></legend>
-      <label>
-        {% set author = '' %}
-        {% if cur_user %}
-          {% set author = cur_user %}
-        {% endif %}
-        Author:
-        <input type="text" name="author" value="{{author}}">
-      </label><br>
-      <label>
-        Title:
-        <input type="text" name="title", value="{{title}}">
-      </label><br>
-      <input type="submit">
-      <span>{{ search_error }}</span>
-    </fieldset>
-  </form>
+  <div class="col-md-12 text-center">
+    <form method="post">
+      <fieldset>
+        <legend><strong>Search Form</strong></legend>
+        <label>
+          {% set author = '' %}
+          {% if cur_user %}
+            {% set author = cur_user %}
+          {% endif %}
+          Author:
+          <input type="text" name="author" value="{{author}}">
+        </label><br>
+        <label>
+          Title:
+          <input type="text" name="title", value="{{title}}">
+        </label><br>
+        <input type="submit">
+        <span>{{ search_error }}</span>
+      </fieldset>
+    </form>
+  </div>
 </div>
 {% endblock %}

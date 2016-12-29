@@ -2,22 +2,24 @@
 
 {% block content %}
 <div class="row">
-  <form method="post">
-    <fieldset>
-      <legend><strong>Post Form</strong></legend>
-      <label>
-        Title:
-        <input type="text" name="title" class="title" value="{{title}}"> 
-      </label><br><br>
-      <label>
-        Blog:
-        <br>
-        <textarea name="blog" class="blog">{{ blog }}</textarea>
-      </label><br><br>
-      <button><a class="cancel" href='/'>Cancel</a></button>
-      <input type="submit">
-      <span>{{ post_error }}</span>
-    </fieldset>
-  </form>
+  <div class="col-md-12 text-center">
+    <form method="post">
+      <fieldset>
+        <legend><strong>Post Form</strong></legend>
+        <label>
+          Title:
+          <input type="text" name="title" class="title" value="{{title}}"> 
+        </label><br><br>
+        <label>
+          Blog:
+          <br>
+          <textarea name="blog" class="blog">{{ blog }}</textarea>
+        </label><br><br>
+        <button><a class="cancel" href='/'>Cancel</a></button>
+        <input type="submit">
+        <span>{{ post_error }}</span>
+      </fieldset>
+    </form>
+  </div>
 </div>
 {% endblock %}
