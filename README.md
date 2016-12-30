@@ -4,24 +4,29 @@ This project builds a basic blog site that allows users to post their blogs and 
 To run the project locally, please make sure you've installed the Google Cloud SDK and type `dev_appserver.py .` in the root directory of the project.
 
 ## Technologies that are used
-- Front End: Jinja2
+- Front End: Jinja2, Bootstrap
 - Web Framework: webapp2
 - Backend: Google Cloud Datastore 
 
-## Options that are available to users
+## Links that are available to users
 
-### General links:
-- Home: go to the home page
+### Navbar on top-right corner:
+- Home: go to the home page of this site
+- About: go to the Github page of this project
+
+### Button in the middle:
+- Sign up now: create a new account
+- Delete your account: permanently delete an account along with its posts, likes and comments
+
+### General actions:
 - (**only available to guests:**)
-  - Register: create a new account
   - Login: log in to an account 
 - (**only available to logged in users:**)
-  - Deregister: permanently delete an account along with its posts, likes and comments
   - Logout: log out the account 
 - Search posts: allow users to search arbitrary posts
 - View all posts: allow users to see all posts across the site
 
-### User actions: (_log in required_)
+### User actions (log in required):
 - New post: allow users to create new posts
 - View all my posts: allow users to view their own posts
 - Delete all my posts: allow users to delete all their own posts

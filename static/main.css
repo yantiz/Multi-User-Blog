@@ -1,14 +1,22 @@
-h1, h2, h3, h4, h5, h6 {
-  margin: 0;
+.status {
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 40px;
 }
 
 .container {
   max-width: 800px;
 }
 
-ul {
+.header {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #E5E5E5;
+}
+
+.actions {
   display: inline-block;
-  text-align:left;
 }
 
 span {
@@ -36,15 +44,26 @@ span {
   padding: 5px;
 }
 
-.post-title, .comment-title {
+.actions,
+.post-title,
+.comment-title {
   display: inline-block;
+}
+
+.comment-title {
+  color: green;
+}
+
+.post-title,
+.comment-title {
+  margin: 0;
 }
 
 .author-date {
   float: right;
 }
 
-hr {
+.boundary {
   background-color: black;
   border: none;
   height: 2px;
@@ -54,8 +73,4 @@ hr {
   width: 550px;
   height: 200px;
   white-space: pre-line;
-}
-
-.commenter {
-  color: green;
 }

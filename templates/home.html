@@ -4,41 +4,66 @@
   <meta charset="utf-8">
   <title>Multi User Blog</title>
   <link type="text/css" rel="stylesheet" href="/static/main.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-  <div class="jumbotron text-center">
-    <h1>Multi User Blog</h1> 
-    {% set status = 'guest' %}
-    {% if cur_user %}
-      {% set status = 'logged in as ' + cur_user %}
-    {% endif %}
-    <p>Status: {{ status }}</p>
-  </div>
-  <div class="container">
+    <div class="container">
+    <div class="header">
+      {% set status = 'guest' %}
+      {% if cur_user %}
+        {% set status = 'logged in as ' + cur_user %}
+      {% endif %}
+      <h3 class="status text-warning pull-left">Status: {{ status }}</h3>
+      <nav>
+        <ul class="nav nav-pills pull-right">
+          <li role="presentation" class="active"><a href="/">Home</a></li>
+          <li role="presentation"><a href="https://github.com/yantiz/Multi-User-Blog">About</a></li>
+        </ul>
+      </nav>
+      <div class="clearfix"></div>
+    </div>
+    <div class="jumbotron text-center">
+      <h1>Multi User Blog</h1> 
+      <p>A blog site that allows users to post their blogs and share with others.</p>
+      {% if status == "guest" %}
+        <p><a class="btn btn-lg btn-success" href="/register">Sign up now</a></p>
+      {% else %}
+        <p><a class="btn btn-lg btn-danger" href="/deregister">Delete your account</a></p>
+      {% endif %}
+    </div>
     <div class="row">
-      <div class="col-md-6 text-right">
-        <h3>General Links:</h3>
-        <ul>
-          <li><a href="/">Home</a></li>
-          {% if status == "guest" %}
-            <li><a href="/register">Register</a></li>
-            <li><a href="/login">Login</a></li>
-          {% else %}
-            <li><a href="/deregister">Deregister</a></li>
-            <li><a href="/logout">Logout</a></li>
-          {% endif %}
-          <li><a href="/searchposts">Search posts</a></li>
-          <li><a href="/viewallposts">View all posts</a></li>
-        </ul>
-      </div>
-      <div class="col-md-6">
-        <h3>User Actions:</h3>
-        <ul>
-          <li><a href="/newpost">New post</a></li>
-          <li><a href="/viewallmyposts">View all my posts</a></li>
-          <li><a href="/deleteallmyposts">Delete all my posts</a></li>
-        </ul>
+      <div class="col-md-12">
+        <nav>
+          <ul class="nav nav-pills nav-justified">
+            <li role="presentation" class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                <h3 class="actions">General Actions</h3> <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                {% if status == "guest" %}
+                  <li><a href="/login">Login</a></li>
+                {% else %}
+                  <li><a href="/logout">Logout</a></li>
+                {% endif %}
+                <li><a href="/searchposts">Search posts</a></li>
+                <li><a href="/viewallposts">View all posts</a></li>
+              </ul>
+            </li>  
+            <li role="presentation" class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                <h3 class="actions">User Actions</h3> <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="/newpost">New post</a></li>
+                <li><a href="/viewallmyposts">View all my posts</a></li>
+                <li><a href="/deleteallmyposts">Delete all my posts</a></li>
+              </ul>
+            </li>  
+          </ul>
+        </nav> 
       </div>
     </div>
     <br>

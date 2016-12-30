@@ -13,38 +13,42 @@
   <div class="row">
     <div class="col-md-12">
       <div class="post">
-        <div class="post-title"><h3>{{ post.title }}</h3></div>
-        <div class="post-title author-date">{{ post.author + ", " + post.last_modified.strftime("%b/%d/%Y %H:%M:%S") }}</div>
+        <h3 class="post-title pull-left">{{post.title}}</h3>
+        <div class="pull-right">{{ post.author + ", " + post.last_modified.strftime("%b/%d/%Y %H:%M:%S") }}</div>
+        <div class="clearfix"></div>
         <br>
-        {% if cur_user == post.author %}
-          Like({{ post.like_num }})
-          <a href="/edit/{{post.key.id()}}">Edit</a>
-          <a href="/delete/{{post.key.id()}}">Delete</a>
-        {% elif not cur_user %}
-          Like({{ post.like_num }})
-        {% else %}
-          <a href="/like/{{post.key.id()}}">Like({{ post.like_num }})</a>
-        {% endif %}
-
-        {% if cur_user %}
-          <a href="/addcomment/{{post.key.id()}}">Comment</a>
-        {% endif %}
-
-        <br><br>
+        <nav>
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="/like/{{post.key.id()}}">Like({{ post.like_num }})</a><li>
+            {% if cur_user %}
+              {% if cur_user == post.author %}
+                <li><a href="/edit/{{post.key.id()}}">Edit</a></li>
+                <li><a href="/delete/{{post.key.id()}}">Delete</a></li>
+              {% endif %}
+              <li><a href="/addcomment/{{post.key.id()}}">Comment</a></li>
+            {% endif %}
+          </ul>
+        </nav>
+        <br>
         {% for line in post.blog.splitlines() %}
           {{ line }}<br>
         {% endfor %}
 
         {% set comments = com_list.pop(0) %}
         {% for comment in comments %}
-          <hr>
-          <div class="comment-title"><h5 class="commenter">Commented by {{comment.author}}</h5></div>
-          {% if cur_user == comment.author %}
-            <a href="/com_edit/{{comment.key.id()}}">Edit</a>
-            <a href="/com_delete/{{comment.key.id()}}">Delete</a>
-          {% endif %}
-          <div class="comment-title author-date">{{ comment.last_modified.strftime("%b/%d/%Y %H:%M:%S") }}</div>
-          <br><br>
+          <hr class="boundary">
+          <h5 class="comment-title pull-left">Commented by {{comment.author}}</h5>
+          <div class="pull-right">{{ comment.last_modified.strftime("%b/%d/%Y %H:%M:%S") }}</div>
+          <div class="clearfix"></div>
+          <nav>
+            <ul class="nav nav-tabs">
+              {% if cur_user == comment.author %}
+                <li><a href="/com_edit/{{comment.key.id()}}">Edit</a></li>
+                <li><a href="/com_delete/{{comment.key.id()}}">Delete</a></li>
+              {% endif %}
+            </ul>
+          </nav>
+          <br>
           {% for line in comment.content.splitlines() %}
             {{ line }}<br>
           {% endfor %}
