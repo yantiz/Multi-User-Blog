@@ -14,9 +14,11 @@ To run the project locally, please make sure you've installed the Google Cloud S
 - Home: go to the home page of this site
 - About: go to the Github page of this project
 
-### Button in the middle:
-- Sign up now: create a new account
-- Delete your account: permanently delete an account along with its posts, likes and comments
+### Buttons in the middle:
+- (**only available to guests:**)
+  - Sign up now: create a new account
+- (**only available to logged in users:**)
+  - Delete your account: permanently delete an account along with its posts, likes and comments
 
 ### General actions:
 - (**only available to guests:**)
