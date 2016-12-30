@@ -33,11 +33,6 @@ span {
   white-space: pre-line;
 }
 
-.cancel {
-  text-decoration: None;
-  color: black;
-}
-
 .post {
   background-color: #cbd1da;
   border: 2px solid black;
@@ -73,4 +68,14 @@ span {
   width: 550px;
   height: 200px;
   white-space: pre-line;
+}
+
+button > a {
+  text-decoration: None !important;
+  color: black !important;
+}
+
+button:hover,
+a:hover {
+  font-weight: bold;
 }
